@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  fluent.conf: "\n<system>\n\t@log_level info\n</system>\n<source>\n  @type forward\n
+    \ <transport tls>\n\t  ca_cert_path /etc/fluentd/secrets/ca-bundle.crt\n\t  ca_private_key_path
+    /etc/fluentd/secrets/ca.key\n  </transport>\n  <security>\n\tshared_key fluent-receiver\n\tself_hostname
+    fluent-receiver\n  </security>\n</source>\n<match *_default_** **_kube-*_** **_openshift-*_**
+    **_openshift_** journal.** system.var.log**>\n  @type file\n  append true\n  path
+    /tmp/infra.logs\n</match>\n<match kubernetes.**>\n  @type file\n  append true\n
+    \ path /tmp/app.logs\n</match>\n<match linux-audit.log** k8s-audit.log** openshift-audit.log**>\n
+    \ @type file\n  append true\n  path /tmp/audit.logs\n</match>\n<match **>\n\t@type
+    stdout\n</match>\n\t"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2020-01-15T20:33:52Z"
+  name: fluent-receiver
+  namespace: openshift-logging
+  resourceVersion: "55052"
+  selfLink: /api/v1/namespaces/openshift-logging/configmaps/fluent-receiver
+  uid: 58148531-37d6-11ea-b976-0a3c391ed4b5

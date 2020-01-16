@@ -1,0 +1,25 @@
+apiVersion: "logging.openshift.io/v1alpha1"
+kind: "LogForwarding"
+metadata:
+  name: instance 
+spec:
+  disableDefaultForwarding: true 
+  outputs: 
+   - type: "forward"
+     name: fluent-receiver
+     endpoint: fluent-receiver.openshift-logging.svc:24244
+     secret:
+        name: fluent-receiver
+  pipelines: 
+   - name: app
+     inputSource: logs.app
+     outputRefs:
+     - fluent-receiver
+   - name: infra-logs
+     inputSource: logs.infra
+     outputRefs:
+     - fluent-receiver
+   - name: audit-logs
+     inputSource: logs.audit
+     outputRefs:
+     - fluent-receiver

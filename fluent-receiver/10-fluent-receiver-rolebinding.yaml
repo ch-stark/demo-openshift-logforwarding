@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: fluent-receiver
+  namespace: openshift-logging
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: fluent-receiver
+subjects:
+- kind: ServiceAccount
+  name: fluent-receiver
